@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container col-10 mx-auto mt-2">
+        <div class="d-flex justify-content-between align-items-center py-2 px-5">
+            <h2 style="color: blue;">Welcome {{user.first_name}}!!!</h2>
+            <div>
+                <a href="/new/recipe" class="btn btn-warning btn-lg">Add new recipe</a>
+                <a href="/logout" class="btn btn-danger btn-lg">Logout</a>
+            </div>
+        </div>
+        <h6>These are the recipes</h6>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Under 30 Minutes?</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                    <tr>
+                        <td>{{recipe.name}}</td>
+                        {% if recipe.under_30 == 1 %}
+                        <td>Yes</td>
+                        {% else %}
+                        <td>No</td>
+                        {% endif %}
+                        <td>
+                            <a href="/recipe/{{recipe.id}}">View Instructions</a> |
+                            {% if recipe.user_id == session.user_id %}
+                            <a href="/edit/recipe/{{recipe.id}}">Edit</a> |
+                            <a href="/destroy/recipe/{{recipe.id}}">Delete</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
